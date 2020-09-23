@@ -66,5 +66,19 @@ def stations():
     stations = list(np.ravel(results))
     return jsonify(stations=stations)
 
+@app.route("/api/v1.0/tobs")
+def temp_monthly():
+    """ Return the temp observation for previous year """
+    prev_year = dt.date(2017, 8, 23) - dt.timedelta(days=365)
+
+    results = session.query(Measurement.tobs).\
+        filter(Measurement.station == 'USC00519281').\
+        filter(Measurement.date >= prev_year).all()
+
+    # unravel results into 1-Dimensional array and convert that array into a python list
+    temps = list(np.ravel(results))
+    # jsonify the temps list and return results
+    return jsonify(temps=temps)
+
 if __name__ == '__main__':
     app.run()
