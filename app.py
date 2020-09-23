@@ -52,12 +52,19 @@ def welcome():
 
 @app.route("/api/v1.0/precipitation")
 def precipitation():
-    """Return the precipitation data for the last year"""
+    """ Return the precipitation data for the last year """
     prev_year = dt.date(2017, 8, 23) - dt.timedelta(days=365)
     precipitation = session.query(Measurement.date, Measurement.prcp).\
         filter(Measurement.date >= prev_year).all()
     precip = {date: prcp for date, prcp in precipitation}
     return jsonify(precip)
+
+@app.route("/api/v1.0/stations")
+def stations():
+    """ Return a list of stations """
+    results = session.query(Station.station).all()
+    stations = list(np.ravel(results))
+    return jsonify(stations=stations)
 
 if __name__ == '__main__':
     app.run()
