@@ -91,7 +91,7 @@ def stats(start=None, end=None):
         results = session.query(*sel).\
             filter(Measurement.date >= start).all()
         temps = list(np.ravel(results))
-        return jsonify(temps)
+        return jsonify(temps=temps)
 
     # calculate TMIN TAVG TMAX with start and end
     results = session.query(*sel).\
@@ -99,7 +99,7 @@ def stats(start=None, end=None):
         filter(Measurement.date <= end).all()
 
     temps = list(np.ravel(results))
-    return jsonify(temps)
+    return jsonify(temps=temps)
 
 
 if __name__ == '__main__':
